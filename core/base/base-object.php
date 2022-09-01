@@ -2,6 +2,8 @@
 
 namespace Elementor\Core\Base;
 
+require_once 'base_object_interface.php';
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
@@ -13,7 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 2.3.0
  */
-class Base_Object {
+class Base_Object implements BaseObjectInterface {
+
 
 	/**
 	 * Settings.
@@ -29,14 +32,14 @@ class Base_Object {
 	/**
 	 * Get Settings.
 	 *
-	 * @since 2.3.0
-	 * @access public
-	 *
-	 * @param string $setting Optional. The key of the requested setting. Default is null.
+	 * @param string|null $setting Optional. The key of the requested setting. Default is null.
 	 *
 	 * @return mixed An array of all settings, or a single value if `$setting` was specified.
+	 *@since 2.3.0
+	 * @access public
+	 *
 	 */
-	final public function get_settings( $setting = null ) {
+	final public function get_settings( string $setting = null ) {
 		$this->ensure_settings();
 
 		return self::get_items( $this->settings, $setting );
@@ -67,12 +70,12 @@ class Base_Object {
 	 * Delete setting.
 	 *
 	 * Deletes the settings array or a specific key of the settings array if `$key` is specified.
+	 * @param string|null $key Optional. Default is null.
 	 * @since 2.3.0
 	 * @access public
 	 *
-	 * @param string $key Optional. Default is null.
 	 */
-	public function delete_setting( $key = null ) {
+	public function delete_setting( string $key = null ) {
 		if ( $key ) {
 			unset( $this->settings[ $key ] );
 		} else {
@@ -80,7 +83,7 @@ class Base_Object {
 		}
 	}
 
-	final public function merge_properties( array $default_props, array $custom_props, array $allowed_props_keys = [] ) {
+	final public function merge_properties( array $default_props, array $custom_props, array $allowed_props_keys = [] ): array {
 		$props = array_replace_recursive( $default_props, $custom_props );
 
 		if ( $allowed_props_keys ) {
@@ -97,16 +100,16 @@ class Base_Object {
 	 * items that match the needle. If needle is not defined the entire haystack
 	 * will be returned.
 	 *
+	 * @param array  $haystack An array of items.
+	 * @param string|null $needle   Optional. Needle. Default is null.
+	 *
+	 * @return mixed The whole haystack or the needle from the haystack when requested.
 	 * @since 2.3.0
 	 * @access protected
 	 * @static
 	 *
-	 * @param array  $haystack An array of items.
-	 * @param string $needle   Optional. Needle. Default is null.
-	 *
-	 * @return mixed The whole haystack or the needle from the haystack when requested.
 	 */
-	final protected static function get_items( array $haystack, $needle = null ) {
+	final protected static function get_items( array $haystack, string $needle = null ) {
 		if ( $needle ) {
 			return isset( $haystack[ $needle ] ) ? $haystack[ $needle ] : null;
 		}
@@ -167,14 +170,14 @@ class Base_Object {
 	 * false (because `Widget_Base` is the declaring class for `register_controls()`, and not the class that called
 	 * `has_own_method()`).
 	 *
-	 * @since 3.1.0
-	 *
 	 * @param string $method_name
-	 * @param string $base_class_name
+	 * @param string|null $base_class_name
 	 *
 	 * @return bool True if the method was declared by the current instance, False if it was inherited.
+	 *@since 3.1.0
+	 *
 	 */
-	public function has_own_method( $method_name, $base_class_name = null ) {
+	public function has_own_method( string $method_name, string $base_class_name = null ) :bool {
 		try {
 			$reflection_method = new \ReflectionMethod( $this, $method_name );
 

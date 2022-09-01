@@ -14,7 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-class Manager extends Base_Object {
+class Manager extends Base_Object implements ExperimentsManagerInterface {
+
 
 	const RELEASE_STATUS_DEV = 'dev';
 
@@ -68,7 +69,6 @@ class Manager extends Base_Object {
 			'release_status' => self::RELEASE_STATUS_ALPHA,
 			'default' => self::STATE_INACTIVE,
 			'mutable' => true,
-			'hidden' => false,
 			'new_site' => [
 				'default_active' => false,
 				'always_active' => false,
@@ -77,7 +77,7 @@ class Manager extends Base_Object {
 			'on_state_change' => null,
 		];
 
-		$allowed_options = [ 'name', 'title', 'tag', 'description', 'release_status', 'default', 'mutable', 'hidden', 'new_site', 'on_state_change', 'dependencies' ];
+		$allowed_options = [ 'name', 'title', 'tag', 'description', 'release_status', 'default', 'mutable', 'new_site', 'on_state_change', 'dependencies' ];
 
 		$experimental_data = $this->merge_properties( $default_experimental_data, $options, $allowed_options );
 
@@ -153,26 +153,26 @@ class Manager extends Base_Object {
 	/**
 	 * Remove Feature
 	 *
-	 * @since 3.1.0
+	 * @param string $feature_name
+	 *@since 3.1.0
 	 * @access public
 	 *
-	 * @param string $feature_name
 	 */
-	public function remove_feature( $feature_name ) {
+	public function remove_feature( string $feature_name ) {
 		unset( $this->features[ $feature_name ] );
 	}
 
 	/**
 	 * Get Features
 	 *
-	 * @since 3.1.0
-	 * @access public
-	 *
-	 * @param string $feature_name Optional. Default is null
+	 * @param string|null $feature_name Optional. Default is null
 	 *
 	 * @return array|null
+	 *@since 3.1.0
+	 * @access public
+	 *
 	 */
-	public function get_features( $feature_name = null ) {
+	public function get_features( string $feature_name = null ) {
 		return self::get_items( $this->features, $feature_name );
 	}
 
@@ -184,21 +184,21 @@ class Manager extends Base_Object {
 	 *
 	 * @return array
 	 */
-	public function get_active_features() {
+	public function get_active_features() : array {
 		return array_filter( $this->features, [ $this, 'is_feature_active' ], ARRAY_FILTER_USE_KEY );
 	}
 
 	/**
 	 * Is Feature Active
 	 *
-	 * @since 3.1.0
-	 * @access public
-	 *
 	 * @param string $feature_name
 	 *
 	 * @return bool
+	 * @since 3.1.0
+	 * @access public
+	 *
 	 */
-	public function is_feature_active( $feature_name ) {
+	public function is_feature_active( string $feature_name ) :bool {
 		$feature = $this->get_features( $feature_name );
 
 		if ( ! $feature ) {
@@ -211,13 +211,13 @@ class Manager extends Base_Object {
 	/**
 	 * Set Feature Default State
 	 *
+	 * @param string $feature_name
+	 * @param string $default_state
 	 * @since 3.1.0
 	 * @access public
 	 *
-	 * @param string $feature_name
-	 * @param string $default_state
 	 */
-	public function set_feature_default_state( $feature_name, $default_state ) {
+	public function set_feature_default_state( string $feature_name, string $default_state ) {
 		$feature = $this->get_features( $feature_name );
 
 		if ( ! $feature ) {
@@ -230,14 +230,14 @@ class Manager extends Base_Object {
 	/**
 	 * Get Feature Option Key
 	 *
-	 * @since 3.1.0
-	 * @access public
-	 *
 	 * @param string $feature_name
 	 *
 	 * @return string
+	 * @since 3.1.0
+	 * @access public
+	 *
 	 */
-	public function get_feature_option_key( $feature_name ) {
+	public function get_feature_option_key( string $feature_name ) : string {
 		return 'elementor_experiment-' . $feature_name;
 	}
 
@@ -646,7 +646,7 @@ class Manager extends Base_Object {
 	 *
 	 * @return string
 	 */
-	public function get_feature_state_label( array $feature ) {
+	public function get_feature_state_label( array $feature ): string {
 		$is_feature_active = $this->is_feature_active( $feature['name'] );
 
 		if ( self::STATE_DEFAULT === $feature['state'] ) {
