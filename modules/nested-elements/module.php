@@ -26,8 +26,9 @@ class Module extends \Elementor\Core\Base\Module {
 			'dependencies' => [
 				'container',
 			],
+			'hidden' => true,
 			'new_site' => [
-				'default_active' => true,
+				'default_active' => false,
 				'minimum_installation_version' => '3.10.0',
 			],
 		];
