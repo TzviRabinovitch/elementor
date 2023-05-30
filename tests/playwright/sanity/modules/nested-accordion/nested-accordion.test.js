@@ -262,7 +262,6 @@ test.describe( 'Nested Accordion @nested-accordion', () => {
 				await editor.setColorControlValue( '#ff0000', 'content_background_color' );
 
 				// Assert
-
 			} );
 			await test.step( 'Border type should be applied to all content items', async () => {
 				// Act
@@ -270,7 +269,6 @@ test.describe( 'Nested Accordion @nested-accordion', () => {
 				await editor.setColorControlValue( '#00ff00', 'accordion_border_color' );
 
 				// Assert
-
 			} );
 
 			await test.step( 'Border radius values should be applied to all content items', async () => {
@@ -285,7 +283,6 @@ test.describe( 'Nested Accordion @nested-accordion', () => {
 				await page.locator( '.elementor-control-content_padding .elementor-control-dimensions li:first-child input' ).fill( '50' );
 
 				// Assert
-
 			} );
 
 			await test.step( 'Container\'s style should override item\'s style', async () => {
