@@ -262,13 +262,19 @@ test.describe( 'Nested Accordion @nested-accordion', () => {
 				await editor.setColorControlValue( '#ff0000', 'content_background_color' );
 
 				// Assert
+				await expect( nestedAccordionItemContent.first() ).toHaveCSS( 'background-color', 'rgb(255, 0, 0)' );
+				await expect( nestedAccordionItemContent.last() ).toHaveCSS( 'background-color', 'rgb(255, 0, 0)' );
 			} );
 			await test.step( 'Border type should be applied to all content items', async () => {
 				// Act
 				await editor.page.selectOption( '.elementor-control-content_border_border >> select', { value: 'solid' } );
-				await editor.setColorControlValue( '#00ff00', 'accordion_border_color' );
+				await editor.setColorControlValue( '#00ff00', 'content_border_color' );
 
 				// Assert
+				await expect( nestedAccordionItemContent.first() ).toHaveCSS( 'border-style', 'solid' );
+				await expect( nestedAccordionItemContent.first() ).toHaveCSS( 'border-style', 'solid' );
+				await expect( nestedAccordionItemContent.last() ).toHaveCSS( 'border-color', 'rgb(0, 255, 0)' );
+				await expect( nestedAccordionItemContent.last() ).toHaveCSS( 'border-color', 'rgb(0, 255, 0)' );
 			} );
 
 			await test.step( 'Border radius values should be applied to all content items', async () => {
@@ -276,6 +282,8 @@ test.describe( 'Nested Accordion @nested-accordion', () => {
 				await page.locator( '.elementor-control-content_border_radius .elementor-control-dimensions li:first-child input' ).fill( '25' );
 
 				// Assert
+				await expect( nestedAccordionItemContent.first() ).toHaveCSS( 'border-radius', '25px' );
+				await expect( nestedAccordionItemContent.last() ).toHaveCSS( 'border-radius', '25px' );
 			} );
 
 			await test.step( 'Padding values should be applied to all content items', async () => {
@@ -283,6 +291,8 @@ test.describe( 'Nested Accordion @nested-accordion', () => {
 				await page.locator( '.elementor-control-content_padding .elementor-control-dimensions li:first-child input' ).fill( '50' );
 
 				// Assert
+				await expect( nestedAccordionItemContent.first() ).toHaveCSS( 'padding', '50px' );
+				await expect( nestedAccordionItemContent.last() ).toHaveCSS( 'padding', '50px' );
 			} );
 
 			await test.step( 'Container\'s style should override item\'s style', async () => {
