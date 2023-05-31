@@ -3,7 +3,7 @@
 	--n-accordion-title-padding: 10px 15px;
   	--n-accordion-item-title-space-between: 0px;
   	--n-accordion-item-title-distance-from-content: 0px;
-  	--n-accordion-padding:0px;
+  	--n-accordion-padding: 0px;
   	--n-accordion-border-radius :0px;
   	--n-content-border-radius :0px;
   	--n-content-padding :0px;
@@ -14,7 +14,7 @@
 		&-item {
 
 		  padding: var(--n-accordion-padding) ;
-		  border-radius:  var(--n-accordion-border-radius);
+		  border-radius: var(--n-accordion-border-radius);
 
 		  &:not(:last-child) {
 				margin-bottom: var(--n-accordion-item-title-space-between);
