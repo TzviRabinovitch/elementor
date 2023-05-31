@@ -5,4 +5,3 @@ export const colors = {
 	orange: { hex: '#ffa500', rgb: 'rgb(255, 165, 0)' },
 	purple: { hex: '#a020f0', rgb: 'rgb(160, 32, 240)' },
 };
-
